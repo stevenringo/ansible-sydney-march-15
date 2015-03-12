@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+# WANT_JSON
+
+require 'rubygems'
+require 'json'
+
+class Ansible
+  def self.params
+    self.new.params
+  end
+
+  def initialize
+    self.filename = ARGV[0]
+  end
+
+  def params
+    @params ||= parse_params
+  end
+
+  private
+
+  attr_accessor :filename
+
+  def parse_params
+    File.open(filename) do |arguments|
+      JSON.parse(arguments.read)
+    end
+  end
+
+  def self.result(hash)
+    dump(hash)
+  end
+
+  def self.dump(hash)
+    print JSON.dump(hash)
+  end
+end
+
+params   = Ansible.params
+dividend = params["dividend"]
+divisor  = params["divisor"]
+quotient = dividend / divisor
+
+Ansible.result({
+  dividend: dividend,
+  divisor: divisor,
+  quotient: quotient
+})
+

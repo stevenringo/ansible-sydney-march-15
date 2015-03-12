@@ -1,0 +1,13 @@
+---
+
+- name: Divide two numbers
+  hosts: local
+  gather_facts: no
+  tasks:
+    - name: do the division with a custom module
+      divider:
+        dividend: 1000
+        divisor: 10
+      register: divider
+
+    - debug: var=divider.quotient

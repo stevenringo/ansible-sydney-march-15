@@ -1,0 +1,19 @@
+---
+
+- name: Get config from a URL
+  hosts: local
+  gather_facts: no
+  tasks:
+    - name: call the URL
+      uri: url={{ config_url }}
+      register: config_service
+
+    - set_fact:
+        server_name: "{{ config_service.json.server_name }}"
+
+    - set_fact:
+        server_ip: "{{ config_service.json.server_ip }}"
+
+    - debug: var=server_name
+
+    - debug: var=server_ip
